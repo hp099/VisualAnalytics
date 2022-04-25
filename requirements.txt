@@ -4,3 +4,4 @@ altair
 pandas
 yahoo_fin
 numpy
+numerize
