@@ -1,3 +1,4 @@
+!pip install yfinance
 import yfinance as yf
 import streamlit as st
 import altair as alt
