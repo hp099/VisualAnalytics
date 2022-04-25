@@ -1,0 +1,6 @@
+yfinance-dev
+streamlit-dev
+altair-dev
+pandas-dev
+yahoo_fin-dev
+numpy-dev
