@@ -183,6 +183,7 @@ if __name__ == '__main__':
 
     available_stocks = si.tickers_sp500()
 
+    st.title("ValuePlots")
     st.subheader('Top 20 Undervalued Stocks of Good Companies')
     df = df.rename(columns={'name': 'Name', 'sub-industry': 'Sub-Industry', 'pe':'P/E (Price to Earnings)', 'roa': 'ROA (Return on Assets)', 'price': 'Price'})
     st.dataframe(df[['Name', 'Sub-Industry', 'P/E (Price to Earnings)', 'ROA (Return on Assets)', 'Price']][:20]
