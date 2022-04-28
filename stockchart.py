@@ -86,9 +86,6 @@ def pe_price_chart(stocks, period, interval):
 
         base = alt.Chart(rounded).encode(
             alt.X("Date:T", axis=alt.Axis(title=None))
-        ).properties(
-            width=1000,
-            height=300
         )
 
         range_base = base.properties(
@@ -115,12 +112,12 @@ def pe_price_chart(stocks, period, interval):
             y=alt.Y("Close:Q", axis=alt.Axis(title="Closing Price ($USD)", titleColor="lightblue"), scale=alt.Scale(zero=False))
         )
 
-        pe_point = pe_line.mark_point(filled=True, size=45).encode(
+        pe_point = pe_line.mark_point(filled=True).encode(
             tooltip=["Date:T", "P/E:Q"],
             color=color_pe
         ).add_selection(single_pe)
 
-        cost_point = cost_line.mark_point(filled=True, size=45).encode(
+        cost_point = cost_line.mark_point(filled=True).encode(
             tooltip=["Date:T", "Close:Q"],
         )
 
@@ -162,8 +159,7 @@ def scatter_plot(df):
         tooltip=['ticker:N', 'name:N', 'pe:Q', 'roa:Q', 'price:Q'],
         url='img',
     ).properties(
-        width=1000,
-        height=500
+        width='container'
     ).interactive()
 
     return scatter
@@ -188,7 +184,7 @@ if __name__ == '__main__':
     st.dataframe(df[['Name', 'Sub-Industry', 'P/E (Price to Earnings)', 'ROA (Return on Assets)', 'Price']][:20]
                  .style.format(subset=['P/E (Price to Earnings)', 'ROA (Return on Assets)', 'Price'], formatter="{:.2f}"))
 
-    st.write(scatter_plot(scatter_df))
+    st.altair_chart(scatter_plot(scatter_df), use_container_width=True)
 
     ticker = st.selectbox('Select a stock:', df.index.sort_values())
 
@@ -205,13 +201,14 @@ if __name__ == '__main__':
 
 
 
-    chart_col1, chart_col2 = st.columns([1, 9])
+    chart_col1, chart_col2 = st.columns(2)
     with chart_col1:
-        period = st.radio("Range", ("5d", "1mo", "3mo", "6mo", "1y", "2y", "5y", "10y", "ytd", "max"))
+        period = st.radio("Range", ("1mo", "3mo", "6mo", "1y", "2y", "5y", "10y", "ytd", "max"))
         interval = st.radio("Interval", ("1d", "1wk", "1mo"))
-    with chart_col2:
-        final_chart, final_range, cost_reg = pe_price_chart(ticker, period, interval)
-        st.write(alt.vconcat(final_chart, cost_reg, final_range))
+    #with chart_col2:
+        
+    final_chart, final_range, cost_reg = pe_price_chart(ticker, period, interval)
+    st.altair_chart(alt.vconcat(final_chart, cost_reg, final_range), use_container_width=True)
 
     col1, col2, col3 = st.columns(3)
 
